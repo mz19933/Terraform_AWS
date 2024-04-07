@@ -1,4 +1,4 @@
-<h1 align="center">
+![image](https://github.com/mz19933/Terraform_AWS/assets/61427854/f85443b0-2de3-45a3-8a0b-cac1618bf5dc)<h1 align="center">
  <a href="https://www.terraform.io/">
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg"/>
@@ -67,4 +67,18 @@ output-
 on linux_amd64"
 ```
 
- ###   Terraform file breakdown🛠️
+### AWS Console setup 💻
+In the upper right corner, select your preferable region (I'm using eu-central-1, as shown in picture below)
+![image](https://github.com/mz19933/Terraform_AWS/assets/61427854/b8d27fdf-f3db-4b8d-a515-b189d59b3792)
+
+### Authentication 🔐
+Get your Access key ID and Secret Access key from your AWS profile
+
+Profile name -> security credentials -> Access keys -> Create access key -> Download .csv file \ copy the keys -> Done
+
+We will then create an AWS credentials file, to store our keys securely AND NOT HARD CODED IN OUR TERRAFORM FILE.
+
+AWS credentials stored in ~/.aws/credentials on Unix-like systems or %USERPROFILE%\.aws\credentials on Windows.
+
+###   Terraform file breakdown🛠️
+
