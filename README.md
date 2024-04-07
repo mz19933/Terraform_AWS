@@ -1,4 +1,4 @@
-![image](https://github.com/mz19933/Terraform_AWS/assets/61427854/f85443b0-2de3-45a3-8a0b-cac1618bf5dc)<h1 align="center">
+<h1 align="center">
  <a href="https://www.terraform.io/">
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg"/>
