@@ -2,7 +2,7 @@
  <a href="https://www.terraform.io/">
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg"/>
-    <img width="400" src="images/plandex-logo-dark-bg.png"/>
+    <img width="400" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg"/>
  </a>
 </h1>
     
@@ -16,7 +16,7 @@ Download and setup Terraform on Ubuntu/Windows.
 (Since I'm using both linux and win machines for my projects, I want the flexibility of being able to use it in both environments.)
 
 ### How to install on Windows 10 -
-Run PowerShell as an admin, to have the permisson edit the environment variables.
+Run PowerShell as an admin, to have the permissions to edit the environment variables.
 
 
 
