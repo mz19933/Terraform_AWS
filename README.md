@@ -8,7 +8,7 @@
     
 ## <p align="center"><strong>🔮 Documentation for Terraform on AWS. 🔮 </strong></p>
 
-This guide will present a simple project goal - using TF to Deploy an AWS service, and the steps necessary for achieving it.
+This guide will present a simple project goal - using TF to Deploy an AWS service, and the necessary components for achieving it.
 
 ### Get started  🚀
 Download and setup Terraform on Ubuntu/Windows.
@@ -57,6 +57,7 @@ unzip terraform_1.7.5_linux_amd64.zip
 
 # Move Terraform exe to /usr/local/bin/ to be globally accessible
 sudo mv terraform /usr/local/bin/terraform
+
 # To see if it worked, try using it from home directory
 cd ~
 terraform -v
@@ -65,3 +66,5 @@ output-
 "Terraform v1.7.5
 on linux_amd64"
 ```
+
+ ###   Terraform file breakdown🛠️
