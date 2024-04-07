@@ -2,7 +2,7 @@
  <a href="https://www.terraform.io/">
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg"/>
-    <img width="400" src="images/plandex-logo-dark-bg.png"/>
+    <img width="400" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg"/>
  </a>
 </h1>
     
