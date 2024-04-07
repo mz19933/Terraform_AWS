@@ -37,7 +37,31 @@ $newPath = $currentPath + ";$terraformPath"
 
 # refresh current powershell session for the changes to take affect
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+
+# To see if it worked, try getting the version
+terraform -v
+
+output-
+"Terraform v1.7.5
+on windows_amd64"
 ```
 
 ### How to install on Ubuntu 22.04 -
 
+```bash
+# Download Terraform, specifically for this example I'm using 1.7.5 and /data/terraform/ as a project path folder
+wget -O /data/terraform/terraform_1.7.5_linux_amd64.zip https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+
+# Unzip
+unzip terraform_1.7.5_linux_amd64.zip
+
+# Move Terraform exe to /usr/local/bin/ to be globally accessible
+sudo mv terraform /usr/local/bin/terraform
+# To see if it worked, try using it from home directory
+cd ~
+terraform -v
+
+output-
+"Terraform v1.7.5
+on linux_amd64"
+```
