@@ -16,7 +16,7 @@ Download and setup Terraform on Ubuntu/Windows.
 (Since I'm using both linux and win machines for my projects, I want the flexibility of being able to use it in both environments.)
 
 ### How to install on Windows 10 -
-Run PowerShell as an admin, to have the permissions edit the environment variables.
+Run PowerShell as an admin, to have the permissions to edit the environment variables.
 
 
 
