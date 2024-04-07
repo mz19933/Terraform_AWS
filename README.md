@@ -1,4 +1,13 @@
+<h1 align="center">
+ <a href="https://www.terraform.io/">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg"/>
+    <img width="400" src="images/plandex-logo-dark-bg.png"/>
+ </a>
+</h1>
+    
 ## <p align="center"><strong>🔮 Documentation for Terraform on AWS. 🔮 </strong></p>
+
 This guide will present a simple project goal - using TF to Deploy an AWS service, and the steps necessary for achieving it.
 
 ### Get started  🚀
