@@ -17,10 +17,10 @@ In AWS, using Terraform, we will do the following:
 - Create custom route table
 - Create a subnet
 - Associate subnet with route table
-- Create Secuirty group to allow port 22,80,443
-- Create a network interface with an ip in the ubnet that was created in step 4
-- Assign an elastic ip to the network interface created in step 7
-- Create Ubuntu server and install/enable apach2 as web server
+- Create Secuirty group
+- Create a network interface
+- Assign an elastic ip to the network interface
+- Create Ubuntu server and install/enable apache2 as web server
 
 ### Get started  🚀
 Download and setup Terraform on Ubuntu/Windows.
@@ -108,15 +108,177 @@ Create a Key
 
 ###   Projects steps🛠️
 
-1) Create vpc
+1) **Create vpc**
+- [Terraform docs for vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
 ```bash
-resource "aws_vpc" "main" {
+resource "aws_vpc" "prod-vpc" {
   cidr_block = "10.0.0.0/16"
+  tags ={
+    Name = "production"
+  }
 }
 ```
-- [Terraform docs for vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
+
+2) **Create VPC Internet Gateway**
+- [Terraform docs for VPC Internet Gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway)
+```bash
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main"
+  }
+}
+```
+
+3) **Create custom route table**
+- [Terraform docs for route_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)
+```bash
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.prod-vpc.id
+}
+
+# Custom route table
+resource "aws_route_table" "prod-route-table" {
+  vpc_id = aws_vpc.prod-vpc.id
+
+  route {
+    # Defualt route, send all tarfic
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  route {
+    # Same for IPv6, send all tarfic
+    ipv6_cidr_block        = "::/0"
+    egress_only_gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "Prod"
+  }
+}
+```
+
+4) **Create a subnet**
+- [Terraform docs for subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)
+```bash
+resource "aws_subnet" "subnet-1" {
+  vpc_id     = aws_vpc.prod-vpc.id
+  cidr_block = "10.0.1.0/24"
+  availability_zone = "eu-central-1"
+
+  tags = {
+    Name = "Prod-subnet"
+  }
+}
+```
+
+5) **Associate subnet with route table**
+- [Terraform docs for association between a route table and a subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association)
+```bash
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.subnet-1.id
+  route_table_id = aws_route_table.prod-route-table.id
+}
+```
+
+6) Create Secuirty group to allow port 22,80,443
+- [Terraform docs for Secuirty group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)
+```bash
+# Secuirty group to allow port 22,80,443
+
+resource "aws_security_group" "allow_web" {
+  name        = "allow_web_traffic"
+  description = "Allow web inbound traffic and all outbound traffic"
+  vpc_id      = aws_vpc.prod-vpc.id
+
+  tags = {
+    Name = "allow_web"
+  }
+
+  ingress {
+    description = "HTTPS"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1" # All protocols
+    cidr_blocks     = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+}
+```
+
+- 
+7) Create a network interface with an ip in the subnet(10.0.1.0/24) that was created in step 4
+  - [Terraform docs for network interface](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface)
+```bash
+resource "aws_network_interface" "web-server-nic" {
+  subnet_id       = aws_subnet.subnet-1.id
+  private_ips     = ["10.0.1.50"]
+  security_groups = [aws_security_group.allow_web.id]
+}
+```
 
 
+8) Assign an elastic ip to the network interface created in step 7
+- [Terraform docs for an elastic ip](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip)
+```bash
+resource "aws_eip" "one" {
+  domain                    = "vpc"
+  network_interface         = aws_network_interface.web-server-nic.id
+  associate_with_private_ip = "10.0.1.50"
+}
+```
+
+9) Create Ubuntu server and install/enable apach2 as web server
+- [Terraform docs for AWS instance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance)
+```bash
+resource "aws_instance" "web-server-instance" {
+  ami           = "ami-023adaba598e661ac"
+  instance_type = "t2.micro"
+  availability_zone = "eu-central-1a"
+  key_name = "main-key"
+
+  network_interface {
+    device_index = 0
+    network_interface_id = aws_network_interface.web-server-nic.id
+  }
+
+  user_data = <<-EOF
+                #!/bin/bash
+                sudo apt update -y
+                sudo apt install apache2 -y
+                sudo systemctl start apache2
+                sudo bash -c 'echo "IT'S ALIVEEEE" > /var/www/html/index.html'
+                EOF
+  tags = {
+    Name = "web-server"
+  }
+}
+```
 
 ## Resources and references
 
