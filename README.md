@@ -8,7 +8,7 @@
     
 ## <p align="center"><strong>🔮 Documentation for Terraform on AWS. 🔮 </strong></p>
 
-### Objective 🎯
+### Objective 🎯 
 This guide will present a simple project goal - using TF to Deploy an AWS service, and the necessary components for achieving it.
 
 In AWS, using Terraform, we will do the following:
@@ -84,15 +84,39 @@ In the upper right corner, select your preferable region (I'm using eu-central-1
 ![image](https://github.com/mz19933/Terraform_AWS/assets/61427854/b8d27fdf-f3db-4b8d-a515-b189d59b3792)
 
 ### Authentication 🔐
-Get your Access key ID and Secret Access key from your AWS profile
+**Get your Access key ID and Secret Access key from your AWS profile**
 
 Profile name -> security credentials -> Access keys -> Create access key -> Download .csv file \ copy the keys -> Done
 
-We will then create an AWS credentials file, to store our keys securely AND NOT HARD CODED IN OUR TERRAFORM FILE.
+We will then create an AWS credentials file, to store our keys securely AND NOT HARD CODE IT IN OUR TERRAFORM FILE.
 
 AWS credentials stored in ~/.aws/credentials on Unix-like systems or %USERPROFILE%\.aws\credentials on Windows.
 
-###   Terraform file breakdown🛠️
+**Set up a Key Pairs(is needed for later steps)**
+
+Console home -> All Services -> EC2
+
+![image](https://github.com/mz19933/Terraform_AWS/assets/61427854/e20c0620-f12f-4bec-86ee-8b7aef4f1547)
+
+NetWork & Secuirty -> Key Pairs
+
+![image](https://github.com/mz19933/Terraform_AWS/assets/61427854/97d533db-02a6-440d-ab5e-1ce50376f193)
+
+Create a Key
+
+![image](https://github.com/mz19933/Terraform_AWS/assets/61427854/cdc47fe4-fb6e-455a-9dd2-16ae87bc6ded)
+
+###   Projects steps🛠️
+
+1) Create vpc
+```bash
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+}
+```
+- [Terraform docs for vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
+
+
 
 ## Resources and references
 
