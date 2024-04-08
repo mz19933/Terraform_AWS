@@ -8,7 +8,19 @@
     
 ## <p align="center"><strong>🔮 Documentation for Terraform on AWS. 🔮 </strong></p>
 
+### Objective 🎯
 This guide will present a simple project goal - using TF to Deploy an AWS service, and the necessary components for achieving it.
+
+In AWS, using Terraform, we will do the following:
+- Create vpc
+- Create internet gateway
+- Create custom route table
+- Create a subnet
+- Associate subnet with route table
+- Create Secuirty group to allow port 22,80,443
+- Create a network interface with an ip in the ubnet that was created in step 4
+- Assign an elastic ip to the network interface created in step 7
+- Create Ubuntu server and install/enable apach2 as web server
 
 ### Get started  🚀
 Download and setup Terraform on Ubuntu/Windows.
@@ -82,3 +94,8 @@ AWS credentials stored in ~/.aws/credentials on Unix-like systems or %USERPROFIL
 
 ###   Terraform file breakdown🛠️
 
+## Resources and references
+
+- [Terraform Course](https://youtu.be/SLB_c_ayRMo?si=d0ZD4EN033mmUCnG) - A great course for beginners, on which most of this project is based on.
+- [Terraform Site](https://github.com/aimeos/aimeos-typo3#readme) - The official Terraform site.
+- [Terraform docs](https://developer.hashicorp.com/terraform/docs) - The official Terraform docs.
