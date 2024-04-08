@@ -110,13 +110,69 @@ Create a Key
 
 1) Create vpc
 ```bash
-resource "aws_vpc" "main" {
+resource "aws_vpc" "prod-vpc" {
   cidr_block = "10.0.0.0/16"
+  tags ={
+    Name = "production"
+  }
 }
 ```
 - [Terraform docs for vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
 
+2) Create VPC Internet Gateway
+```bash
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
 
+  tags = {
+    Name = "main"
+  }
+}
+```
+- [Terraform docs for VPC Internet Gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway)
+
+3) Create custom route table
+```bash
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.prod-vpc.id
+}
+
+# Custom route table
+resource "aws_route_table" "prod-route-table" {
+  vpc_id = aws_vpc.prod-vpc.id
+
+  route {
+    # Defualt route, send all tarfic
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  route {
+    # Same for IPv6, send all tarfic
+    ipv6_cidr_block        = "::/0"
+    egress_only_gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "Prod"
+  }
+}
+```
+- [Terraform docs for route_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)
+
+4) Create a subnet
+```bash
+   resource "aws_subnet" "subnet-1" {
+  vpc_id     = aws_vpc.prod-vpc.id
+  cidr_block = "10.0.1.0/24"
+  availability_zone = "eu-central-1"
+
+  tags = {
+    Name = "Prod-subnet"
+  }
+}
+```
+- [Terraform docs for subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)
 
 ## Resources and references
 
