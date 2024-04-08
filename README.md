@@ -82,3 +82,8 @@ AWS credentials stored in ~/.aws/credentials on Unix-like systems or %USERPROFIL
 
 ###   Terraform file breakdown🛠️
 
+## Resources and references
+
+- [Terraform Course](https://youtu.be/SLB_c_ayRMo?si=d0ZD4EN033mmUCnG) - A great course for beginners, on which most of this project is based on.
+- [Terraform Site](https://github.com/aimeos/aimeos-typo3#readme) - The official Terraform site.
+- [Terraform docs](https://developer.hashicorp.com/terraform/docs) - The official Terraform docs.
