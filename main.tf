@@ -15,8 +15,12 @@ provider "aws" {
   profile = "default"
 }
 
-data "aws_regions" "current" {}
+# Include the self-made available_regions module
+module "available_regions" {
+  source = "./available_regions"
+}
 
+# Define output for the available_regions module
 output "available_regions" {
-  value = data.aws_regions.current.names
+  value = module.available_regions.available_regions
 }
