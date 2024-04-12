@@ -272,7 +272,12 @@ resource "aws_instance" "web-server-instance" {
                 sudo apt update -y
                 sudo apt install apache2 -y
                 sudo systemctl start apache2
-                sudo bash -c 'echo "IT'S ALIVEEEE" > /var/www/html/index.html'
+                # Create directory for website files
+                sudo mkdir -p /var/www/html
+                # Download HTML file from GitHub (This URL points directly to the raw content of a file)
+                sudo curl -o /var/www/html/index.html https://raw.githubusercontent.com/mz19933/Terraform_AWS/main/HTML/index.html
+                # Download CSS file from GitHub
+                sudo curl -o /var/www/html/styles.css https://raw.githubusercontent.com/mz19933/Terraform_AWS/main/HTML/styles.css
                 EOF
   tags = {
     Name = "web-server"
