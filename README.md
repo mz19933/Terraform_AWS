@@ -253,7 +253,7 @@ resource "aws_eip" "one" {
 }
 ```
 
-9) Create Ubuntu server and install/enable apach2 as web server
+9) Create Ubuntu server and install/enable apache2 as web server
 - [Terraform docs for AWS instance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance)
 ```bash
 resource "aws_instance" "web-server-instance" {
