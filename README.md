@@ -270,7 +270,7 @@ resource "aws_instance" "web-server-instance" {
   user_data = <<-EOF
                 #!/bin/bash
                 sudo apt update -y
-                sudo apt install apache2 -y
+                sudo apt install apache2 curl -y
                 sudo systemctl start apache2
                 # Create directory for website files
                 sudo mkdir -p /var/www/html
