@@ -3,3 +3,6 @@
 terraform.tfstate
 .terraform/modules/modules.json
 terraform.tfstate.backup
+erros.md
+variables.tfvars
+variables.tf
