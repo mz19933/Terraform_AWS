@@ -146,9 +146,14 @@ resource "aws_instance" "web-server-instance" {
   user_data = <<-EOF
                 #!/bin/bash
                 sudo apt update -y
-                sudo apt install apache2 -y
-                sudo bash -c 'echo "IT IS ALIVEEEE" > /var/www/html/index.html'
+                sudo apt install apache2 curl -y
                 sudo systemctl start apache2
+                # Create directory for website files
+                sudo mkdir -p /var/www/html
+                # Download HTML file from GitHub (This URL points directly to the raw content of a file)
+                sudo curl -o /var/www/html/index.html https://raw.githubusercontent.com/mz19933/Terraform_AWS/main/HTML/index.html
+                # Download CSS file from GitHub
+                sudo curl -o /var/www/html/styles.css https://raw.githubusercontent.com/mz19933/Terraform_AWS/main/HTML/styles.css
                 EOF
   tags = {
     Name = "web-server"
