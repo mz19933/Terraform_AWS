@@ -316,7 +316,8 @@ resource "aws_route53_record" "a_record" {
 }
 ```
 **Just as we don't hard code our credentials into TF itself but pass it securely, the same will be for our zone_id, which is sensitive information.**
-
+- [Terraform docs for Variabless](https://developer.hashicorp.com/terraform/language/values/variables)
+  
 You will need two config files -
 * variables.tf
 ```bash
