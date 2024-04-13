@@ -106,7 +106,7 @@ Create a Key
 
 ![image](https://github.com/mz19933/Terraform_AWS/assets/61427854/cdc47fe4-fb6e-455a-9dd2-16ae87bc6ded)
 
-###   Projects steps🛠️
+###   Project's steps🛠️
 
 1) **Create vpc**
 - [Terraform docs for vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
@@ -250,6 +250,7 @@ resource "aws_eip" "one" {
   domain                    = "vpc"
   network_interface         = aws_network_interface.web-server-nic.id
   associate_with_private_ip = "10.0.1.50"
+  depends_on = [aws_internet_gateway.gw, aws_instance.web-server-instance]
 }
 ```
 
@@ -284,6 +285,39 @@ resource "aws_instance" "web-server-instance" {
   }
 }
 ```
+## Important notice
+These steps achieve our initial goal - using TF to Deploy an AWS service.
+Also as you can notice, we stuck as much as possible to the available free AWS tier resources, obviously with some limitations.
+
+For the sake of further implementing improvements and enchantments, some resources are just not available for free, or I would highly recommend against getting them for "free" (Example: Domain registration).
+
+I will continue this guide by using the combination of best and lowest cost possible solutions, follow along at your own discretion.
+
+###   Project's steps part 2 ⚒️
+So now that we have a working basic ec2 instance that can serve as web server, now what?
+Well, the sky is the limit, or maybe not? 🙂
+
+In line with best practices, first of all I want to fixate a proper DNS name for our service.
+For that we will need a couple of things - 
+* Domain registerd for the name of our service
+* Proper dns record that points to our service
+
+Obviously there are multiple ways of achieving it, in the spirit of using AWS I will base my solution on it.
+
+You don't have to, in case you prefer another provider.(such as GoDaddy, Cloudflare etc')
+
+10) Create the A record in Route 53 if an Elastic IP exists
+- [Terraform docs for an aws_route53_record](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record)
+```bash
+resource "aws_route53_record" "a_record" {
+  zone_id = var.zone_id  # Enter your Route 53 zone ID here
+  name    = "level-up-devops.com"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_eip.one.public_ip]  # Assuming you have an Elastic IP resource named "one"
+}
+```
+
 
 ## Resources and references
 
