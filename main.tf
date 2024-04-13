@@ -130,10 +130,19 @@ resource "aws_eip" "one" {
   depends_on = [aws_internet_gateway.gw, aws_instance.web-server-instance]
 }
 
-# Update the A record in Route 53 if an Elastic IP exists
-resource "aws_route53_record" "a_record" {
+# Update the A record for the apex domain in Route 53 if an Elastic IP exists
+resource "aws_route53_record" "a_record_apex" {
   zone_id = var.zone_id  # Enter your Route 53 zone ID here
   name    = "level-up-devops.com"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_eip.one.public_ip]  # Assuming you have an Elastic IP resource named "one"
+}
+
+# Update the A record for the www subdomain in Route 53 if an Elastic IP exists
+resource "aws_route53_record" "a_record_www" {
+  zone_id = var.zone_id  # Enter your Route 53 zone ID here
+  name    = "www.level-up-devops.com"
   type    = "A"
   ttl     = "300"
   records = [aws_eip.one.public_ip]  # Assuming you have an Elastic IP resource named "one"
