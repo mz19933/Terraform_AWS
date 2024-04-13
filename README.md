@@ -231,7 +231,6 @@ resource "aws_security_group" "allow_web" {
 }
 ```
 
-- 
 7) Create a network interface with an ip in the subnet(10.0.1.0/24) that was created in step 4
   - [Terraform docs for network interface](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface)
 ```bash
@@ -241,7 +240,6 @@ resource "aws_network_interface" "web-server-nic" {
   security_groups = [aws_security_group.allow_web.id]
 }
 ```
-
 
 8) Assign an elastic ip to the network interface created in step 7
 - [Terraform docs for an elastic ip](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip)
