@@ -315,10 +315,26 @@ resource "aws_route53_record" "a_record" {
   records = [aws_eip.one.public_ip]  # Assuming you have an Elastic IP resource named "one"
 }
 ```
+**Just as we don't hard code our credentials into TF itself but pass it securely, the same will be for our zone_id, which is sensitive information.**
 
+You will need two config files -
+* variables.tf
+```bash
+# variables.tf
+
+variable "zone_id" {
+  description = "Route 53 Hosted Zone ID"
+  type        = string
+}
+```
+* variables.tfvars
+```bash
+# variables.tfvars
+zone_id = "XXXXXXXXXXXXXXXXX"  # Replace with your actual Hosted Zone ID
+```
 
 ## Resources and references
 
-- [Terraform Course](https://youtu.be/SLB_c_ayRMo?si=d0ZD4EN033mmUCnG) - A great course for beginners, on which most of this project is based on.
+- [Terraform Course](https://youtu.be/SLB_c_ayRMo?si=d0ZD4EN033mmUCnG) - A great course for beginners, on which a great part of this project is based on.
 - [Terraform Site](https://github.com/aimeos/aimeos-typo3#readme) - The official Terraform site.
 - [Terraform docs](https://developer.hashicorp.com/terraform/docs) - The official Terraform docs.
