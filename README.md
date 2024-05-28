@@ -333,6 +333,25 @@ variable "zone_id" {
 # variables.tfvars
 zone_id = "XXXXXXXXXXXXXXXXX"  # Replace with your actual Hosted Zone ID
 ```
+And in case you want to pass var via terraform cli itself
+```
+# VPC
+resource "aws_vpc" "prod-vpc" {
+  cidr_block = "10.0.0.0/16"
+  tags ={
+    Name = var.vpc_name
+  }
+}
+```
+With variables.tf config, like this
+```
+# variables.tf
+variable "vpc_name" {
+  description = "The name tag for the VPC"
+  type        = string
+}
+```
+You can see as fully funcinting snippet under [pass_var](https://github.com/mz19933/Terraform_AWS/tree/main/pass_var)
 
 ## Resources and references
 
